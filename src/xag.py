@@ -1,7 +1,7 @@
-import os
-import textwrap
-import requests
-import time
+from os import name as o_name, system as o_system
+from textwrap import dedent as trim_indent
+from requests import post, get, Response
+from time import strftime, gmtime
 from pathlib import Path
 
 class XAG:
@@ -44,14 +44,14 @@ class XAG:
 
     def __clear(self):
         # Check the OS type and run the appropriate command
-        if os.name == 'nt':
+        if o_name == 'nt':
             # For Windows
-            os.system('cls')
+            o_system('cls')
         else:
             # For macOS and Linux
-            os.system('clear')
+            o_system('clear')
 
-    def __response_handler(self, response: requests.Response):
+    def __response_handler(self, response: Response):
         response_json = response.json()
 
         if (response.status_code == 200):
@@ -66,7 +66,7 @@ class XAG:
             'Authorization': f'{self.__api_key}' 
         }
         
-        response = requests.get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_COIN"]}', headers=headers, timeout=timeout)
+        response = get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_COIN"]}', headers=headers, timeout=timeout)
         response_json = self.__response_handler(response)
         self.__coins = response_json['coins']
         self.__balances = response_json['balance']
@@ -76,7 +76,7 @@ class XAG:
             'Authorization': f'{self.__api_key}' 
         }
 
-        response = requests.get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_USER_INFO"]}', headers=headers, timeout=timeout)
+        response = get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_USER_INFO"]}', headers=headers, timeout=timeout)
         response_json = self.__response_handler(response)
         self.__user_id = response_json['user_id']
         self.__username = response_json['discord_profile']['username']
@@ -88,13 +88,13 @@ class XAG:
             'Authorization': f'{self.__api_key}' 
         }
 
-        response = requests.get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_COOLDOWN"]}', headers=headers, timeout=timeout)
+        response = get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_COOLDOWN"]}', headers=headers, timeout=timeout)
         response_json = self.__response_handler(response)
         self.__xag_plus_cd = response_json['xag_plus_cooldown']
         self.__daily_rewards_cd = response_json['daily_reward_cooldown']
 
     def __get_stock(self, timeout: int = 3):
-        response = requests.get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_STOCK"]}', timeout=timeout)
+        response = get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_STOCK"]}', timeout=timeout)
         response_json = self.__response_handler(response)
         self.__xbox = response_json['xbox']
         self.__xbox_plus = response_json['xbox_plus']
@@ -125,11 +125,11 @@ class XAG:
 
         print("Generating account...")
         params = {'type': type}
-        response = requests.post(f'{self.__base_url}{self.__API_ENDPOINTS["GENERATE"]}', headers=headers, timeout=timeout, params=params)
+        response = post(f'{self.__base_url}{self.__API_ENDPOINTS["GENERATE"]}', headers=headers, timeout=timeout, params=params)
         response_json = self.__response_handler(response)
 
         with file_path.open('a') as file:
-            detail = textwrap.dedent(f"""
+            detail = trim_indent(f"""
             email: {response_json['account']['details']['email']}
             password: {response_json['account']['details']['password']}
             username: {response_json['account']['details']['username']['username']}
@@ -150,7 +150,7 @@ class XAG:
         }
 
         params = {'email': email, 'password': password}
-        response = requests.post(f'{self.__base_url}{self.__API_ENDPOINTS["LOGIN"]}', headers=headers, timeout=timeout, params=params)
+        response = post(f'{self.__base_url}{self.__API_ENDPOINTS["LOGIN"]}', headers=headers, timeout=timeout, params=params)
         response_json = self.__response_handler(response)
 
         print(f"\nValid: {response_json['valid']}")
@@ -162,7 +162,7 @@ class XAG:
         }
 
         params = {'email': email, 'password': password, 'username': username}
-        response = requests.post(f'{self.__base_url}{self.__API_ENDPOINTS["SET_USERNAME"]}', headers=headers, timeout=timeout, params=params)
+        response = post(f'{self.__base_url}{self.__API_ENDPOINTS["SET_USERNAME"]}', headers=headers, timeout=timeout, params=params)
         response_json = self.__response_handler(response)
 
         # Create a folder and a file to store the accounts (if it doesn't exist)
@@ -189,7 +189,7 @@ class XAG:
         }
 
         params = {'task_id': id}
-        response = requests.get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_USERNAME_TASK"]}', headers=headers, timeout=timeout, params=params)
+        response = get(f'{self.__base_url}{self.__API_ENDPOINTS["CHECK_USERNAME_TASK"]}', headers=headers, timeout=timeout, params=params)
         response_json = self.__response_handler(response)
 
         print("")
@@ -218,7 +218,7 @@ class XAG:
                 self.__refresh()
                 self.__first_run = False
 
-            view = textwrap.dedent(f"""
+            view = trim_indent(f"""
             Welcome to XAG APP by ts0ra!
             
             =========+ INFO +=========
@@ -234,7 +234,7 @@ class XAG:
             XAG Plus        : {self.__xag_plus}
 
             XAG Plus CD     : {self.__xag_plus_cd}
-            Daily Rewards CD: {time.strftime('%H:%M:%S', time.gmtime(self.__daily_rewards_cd))}
+            Daily Rewards CD: {strftime('%H:%M:%S', gmtime(self.__daily_rewards_cd))}
 
             =========+STOCKS+=========
 
