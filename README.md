@@ -11,6 +11,8 @@ This script was made to use XAG easier, instead using discord bot or calling dir
 7. Check User Info
 
 ## How to use
+> [!IMPORTANT]
+> To get the API_TOKEN please join XAG discord server: https://discord.gg/mpGgsHTGwX
 1. Clone or download this repository.
 ```
 https://github.com/ts0ra/XAG.git
