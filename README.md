@@ -27,6 +27,5 @@ pip install -r requirements.txt
 ```
 python main.py
 ```
-
 ## Optional
-If you don't have python or lazy to setup the environment, you can go to [release](https://github.com) page and download compiled binary of this script.
+If you don't have python or lazy to setup the environment, you can go to [release](https://github.com/ts0ra/XAG/releases) page and download compiled binary of this script.
