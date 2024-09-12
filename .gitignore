@@ -1,2 +1,5 @@
 .venv
 src/__pycache__
+data/accounts.txt
+data/api_token.txt
+data/task_id.txt
