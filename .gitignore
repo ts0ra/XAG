@@ -3,3 +3,8 @@ src/__pycache__
 data/accounts.txt
 data/api_token.txt
 data/task_id.txt
+main.build
+main.dist
+main.onefile-build
+main.cmd
+main.exe
