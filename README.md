@@ -13,7 +13,7 @@ This script was made to use XAG easier, instead using discord bot or calling dir
 ## How to use
 1. Clone or download this repository.
 ```
-link
+https://github.com/ts0ra/XAG.git
 ```
 2. I recommend you to make a new virtual environment by using this command.
 ```
