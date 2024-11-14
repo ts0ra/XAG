@@ -13,6 +13,8 @@ This script was made to use XAG easier, instead using discord bot or calling dir
 ## How to use
 > [!IMPORTANT]
 > To get the API_TOKEN please join XAG discord server: https://discord.gg/zdgHeTrkNR
+> 
+> This only works on Python versions 3.10 and above.
 1. Clone or download this repository.
 ```
 https://github.com/ts0ra/XAG.git
